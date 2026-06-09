@@ -1,6 +1,6 @@
 services:
   ComfyUI:
-    image: biiibiii/comfyui_intel:latest
+    image: biiibiii/comfyui-intel:latest
     container_name: ComfyUI
     ports:
       - 8188:8188
