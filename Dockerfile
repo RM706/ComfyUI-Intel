@@ -14,7 +14,7 @@ RUN printf '%s\n' \
     "deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-proposed main restricted universe multiverse" \
     > /etc/apt/sources.list
 
-# 更新包索引
+# 更新包索引并安装 git
 RUN apt-get update && \
     apt-get install -y --no-install-recommends git && \
     apt-get clean && \
@@ -32,7 +32,7 @@ RUN git clone https://github.com/Comfy-Org/ComfyUI.git . && \
     pip install --no-cache-dir matrix-nio
 
 RUN mkdir -p /opt/comfyui/defaults && \
-    for dir in models user output; do \
+    for dir in models user output custom_nodes; do \
         mkdir -p "$dir" && \
         cp -a "$dir" "/opt/comfyui/defaults/" 2>/dev/null || \
         mkdir -p "/opt/comfyui/defaults/$dir"; \

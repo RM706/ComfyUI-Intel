@@ -12,3 +12,4 @@ services:
       - ./models:/opt/comfyui/models
       - ./user:/opt/comfyui/user
       - ./output:/opt/comfyui/output
+      - ./custom_nodes:/opt/comfyui/custom_nodes

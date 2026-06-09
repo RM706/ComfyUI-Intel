@@ -5,7 +5,7 @@
 DEFAULTS_DIR="/opt/comfyui/defaults"
 TARGET_DIR="/opt/comfyui"
 
-for dir in models user output; do
+for dir in models user output custom_nodes; do
     target="$TARGET_DIR/$dir"
     backup="$DEFAULTS_DIR/$dir"
 

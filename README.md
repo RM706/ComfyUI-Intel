@@ -17,8 +17,6 @@
 
 ## 构建镜像
 
-拉取已经构建好的 [Image](https://hub.docker.com/r/biiibiii/comfyui_intel) 或者自己构建镜像
-
 ```bash
 docker build -t comfyui_intel .
 ```
@@ -36,13 +34,14 @@ docker build -t comfyui_intel .
 docker compose -f comfyui-intel.compose up -d
 ```
 
-首次启动后，当前目录会生成 `models/`、`user/`、`output/` 三个目录：
+首次启动后，当前目录会生成 `models/`、`user/`、`output/`、`custom_nodes/` 四个目录：
 
 | 目录 | 用途 |
 |------|------|
 | `models/` | 存放模型权重文件（checkpoints、vae、loras 等） |
-| `user/` | 用户配置、工作流、插件 |
+| `user/` | 用户配置、工作流 |
 | `output/` | 生成的图片输出 |
+| `custom_nodes/` | 自定义节点插件 |
 
 ## 访问
 
