@@ -1,0 +1,14 @@
+services:
+  ComfyUI:
+    image: biiibiii/comfyui_intel:latest
+    container_name: ComfyUI
+    ports:
+      - 8188:8188
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
+    group_add:
+      - "${HOST_VIDEO_GID:-105}"
+    volumes:
+      - ./models:/opt/comfyui/models
+      - ./user:/opt/comfyui/user
+      - ./output:/opt/comfyui/output
