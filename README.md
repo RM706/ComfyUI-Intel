@@ -17,6 +17,8 @@
 
 ## 构建镜像
 
+拉取已经构建好的 [Image](https://hub.docker.com/r/biiibiii/comfyui_intel) 或者自己构建镜像
+
 ```bash
 docker build -t comfyui_intel .
 ```
