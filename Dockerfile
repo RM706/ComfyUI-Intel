@@ -1,7 +1,8 @@
 FROM intel/pytorch:xpu-2.11.0-ubuntu24.04-20260608
 
-# 使用清华源替换 Ubuntu 的 APT 源
-RUN printf '%s\n' \
+# 使用清华源替换 Ubuntu 的 APT 源（同时清理 sources.list.d 中的默认源）
+RUN rm -rf /etc/apt/sources.list.d/* && \
+    printf '%s\n' \
     "deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble main restricted universe multiverse" \
     "deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble main restricted universe multiverse" \
     "deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-updates main restricted universe multiverse" \
@@ -29,7 +30,7 @@ WORKDIR /opt/comfyui
 RUN git clone https://github.com/Comfy-Org/ComfyUI.git . && \
     pip install --no-cache-dir -r requirements.txt && \
     pip install --no-cache-dir -r manager_requirements.txt && \
-    pip install --no-cache-dir matrix-nio
+    pip install --no-cache-dir matrix-nio matplotlib
 
 RUN mkdir -p /opt/comfyui/defaults && \
     for dir in models user output custom_nodes; do \
@@ -42,4 +43,4 @@ COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["python", "main.py", "--enable-manager", "--listen", "0.0.0.0"]
+CMD ["python", "main.py", "--enable-manager", "--enable-cors-header", "--listen", "0.0.0.0"]
