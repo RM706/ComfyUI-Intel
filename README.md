@@ -20,7 +20,7 @@
 ## 构建镜像
 
 ```bash
-docker build -t comfyui_intel .
+docker build -t comfyui-intel .
 ```
 
 ## 快速开始
@@ -61,7 +61,7 @@ DEVICE_GRP=$(stat --format %g $DEVICE)
 ```
 services:
   ComfyUI:
-    image: biiibiii/comfyui_intel:latest
+    image: biiibiii/comfyui-intel:latest
     container_name: ComfyUI
     ports:
       - 8188:8188
