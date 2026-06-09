@@ -45,6 +45,40 @@ docker compose -f comfyui-intel.compose up -d
 | `output/` | 生成的图片输出 |
 | `custom_nodes/` | 自定义节点插件 |
 
+### 注意事项
+
+1. 如果不能识别Intel GPU，请检查 `comfyui-intel.compose` ，里面的 `devices` ，`group_add` 可能需要根据自己的环境修改一下。
+
+先检查一下GPU：
+
+```
+DEVICE=${DEVICE:-/dev/dri/renderD128}
+DEVICE_GRP=$(stat --format %g $DEVICE)
+```
+
+记住 `DEVICE` 与 `DEVICE_GRP` ，然后：
+
+```
+services:
+  ComfyUI:
+    image: biiibiii/comfyui_intel:latest
+    container_name: ComfyUI
+    ports:
+      - 8188:8188
+    devices:
+      - <DEVICE>:<DEVICE>
+    group_add:
+      - "<DEVICE_GRP>"
+    volumes:
+      - ./models:/opt/comfyui/models
+      - ./user:/opt/comfyui/user
+      - ./output:/opt/comfyui/output
+      - ./custom_nodes:/opt/comfyui/custom_nodes
+
+```
+
+
+
 ## 访问
 
 启动后访问 `http://localhost:8188` 即可使用 ComfyUI。
