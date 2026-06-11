@@ -15,9 +15,13 @@ RUN rm -rf /etc/apt/sources.list.d/* && \
     "deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ noble-proposed main restricted universe multiverse" \
     > /etc/apt/sources.list
 
-# 更新包索引并安装 git
+# 添加 Intel oneAPI 仓库，用于安装 SYCL 编译器
+RUN wget -O- https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB | gpg --dearmor | tee /usr/share/keyrings/oneapi-archive-keyring.gpg > /dev/null && \
+    echo "deb [signed-by=/usr/share/keyrings/oneapi-archive-keyring.gpg] https://apt.repos.intel.com/oneapi all main" | tee /etc/apt/sources.list.d/oneAPI.list
+
+# 更新包索引并安装 git 及 Intel oneAPI 编译工具链
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends git && \
+    apt-get install -y --no-install-recommends git intel-oneapi-compiler-dpcpp-cpp intel-oneapi-mkl-devel && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -31,6 +35,12 @@ RUN git clone https://github.com/Comfy-Org/ComfyUI.git . && \
     pip install --no-cache-dir -r requirements.txt && \
     pip install --no-cache-dir -r manager_requirements.txt && \
     pip install --no-cache-dir matrix-nio matplotlib
+
+# 安装使用SYCL后端的llama-cpp-python
+# intel-oneapi-openmp（OpenMP 运行时）已通过 APT 随编译器包安装，无需 pip 安装
+RUN . /opt/intel/oneapi/setvars.sh && \
+    CMAKE_ARGS="-DGGML_SYCL=on -DCMAKE_C_COMPILER=icx -DCMAKE_CXX_COMPILER=icpx" \
+    pip install --no-cache-dir llama-cpp-python
 
 RUN mkdir -p /opt/comfyui/defaults && \
     for dir in models user output custom_nodes; do \

@@ -8,6 +8,7 @@
 - 使用国内镜像源加速构建（清华 APT 源、北外 PyPI 源）
 - 默认启用 CORS 跨域支持，可被外部网页调用 API
 - 容器启动时自动安装 `custom_nodes` 中各节点的 `requirements.txt` 依赖
+- 内置 `llama-cpp-python`（SYCL 后端），可在 ComfyUI 中直接使用 Intel GPU 运行 LLM 推理
 
 ## 文件说明
 

@@ -2,6 +2,9 @@
 # 容器启动入口：若宿主机挂载了空目录，从默认备份中填充原始内容
 # 避免 bind mount 的空目录覆盖容器内的默认文件
 
+# 加载 Intel oneAPI 运行环境变量
+source /opt/intel/oneapi/setvars.sh 2>/dev/null || true
+
 DEFAULTS_DIR="/opt/comfyui/defaults"
 TARGET_DIR="/opt/comfyui"
 
